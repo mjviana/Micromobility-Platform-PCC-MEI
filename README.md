@@ -42,5 +42,6 @@ Service that manages the trips of the platform, responsible for:
 
 Talk to [Mário Viana](mailto:a13728@alunos.ipca.p) if you need help to setup the project
 
-1.  At the root of the project run the command:
+1.  Create .env files for AuthenticationSerice as explained in [README.md](/AuthenticationService/README.md) file located in AuthenticaionService root folder
+2.  At the root of the project run the command:
     <br> <code> docker-compose up -d</code> for detached mode or <code> docker-composed up attached mode </code>
