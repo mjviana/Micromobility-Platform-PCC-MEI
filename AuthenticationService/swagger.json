@@ -1,0 +1,219 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Authenication Service",
+    "description": "Service responsible for users registration and authentication"
+  },
+  "host": "localhost:5000",
+  "basePath": "/users",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user account",
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to signup",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "mail@mail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "mypassword"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "mypassword"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Registration Success"
+          },
+          "400": {
+            "description": " "
+          },
+          "500": {
+            "description": "Cannot Register"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login user",
+        "description": "Logs in user to his account",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to login",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "mail@mail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "mypassword"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "400": {
+            "description": "You must verify your email to activate your account"
+          },
+          "404": {
+            "description": "Account not found"
+          },
+          "500": {
+            "description": "Couldn't create access token. Please try again later"
+          }
+        }
+      }
+    },
+    "/activate": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Actvate account",
+        "description": "Final step to register a new user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to activate account",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "mail@mail.com"
+                },
+                "code": {
+                  "type": "string",
+                  "example": "3454534"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Account activated."
+          },
+          "400": {
+            "description": "Please make a valid request"
+          }
+        }
+      }
+    },
+    "/forgot": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Forgot passord",
+        "description": "Starts process to recover account",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to recover account",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "mail@mail.com"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "400": {
+            "description": "Cannot be processed"
+          },
+          "500": {
+            "description": "Couldn't send mail. Please try again later."
+          }
+        }
+      }
+    },
+    "/reset": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Reset passord",
+        "description": "Final process to recover account",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to reset password",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "1432432"
+                },
+                "newPasword": {
+                  "type": "string",
+                  "example": "newPassoword"
+                },
+                "confirmaPassoword": {
+                  "type": "string",
+                  "example": "newPassowrd"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "400": {
+            "description": "Passwords didn't match"
+          },
+          "403": {
+            "description": "Couldn't process request. Please provide all mandatory fields"
+          },
+          "500": {
+            "description": "Error"
+          }
+        }
+      }
+    }
+  }
+}

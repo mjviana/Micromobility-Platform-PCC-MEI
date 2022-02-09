@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+
+  ######### MONGO ######################
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27018:27017
+    volumes:
+      - db_micromobility:/data/db
+
+  ######### VEHICLES ######################
+  vehicles_service:
+    environment:
+      - "MongoDbSettings:Host=mongodb"
+      - "MongoDbSettings:Port=27017"
+      - "MongoDbSettings:DatabaseName=Micromobility"
+      - "MongoDbSettings:CollectionName=Vehicles"
+    build: ./VehiclesManagementService
+    ports:
+      - 8080:80
+    depends_on:
+      - mongodb
+
+  ######### TRIPS ######################
+  trips_service:
+    environment:
+      - "MongoDbSettings:Host=mongodb"
+    image: tripsservice
+    build:
+      context: .
+      dockerfile: TripsService/src/TripsService/Dockerfile
+    ports:
+      - 2000:6000
+    depends_on:
+      - mongodb
+  ######### AUTHENTICATON ######################
+  authenticationservice:
+    image: authenticationservice
+    build: ./AuthenticationService
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongodb
+
+  ######### GATEWAY ######################    
+  api-gateway:
+    image: api-gateway
+    build: ./ApiGateway
+    ports:
+      - 3002:3002
+
+  ######### FRONTEND ######################    
+  frontend:
+    image: frontend
+    build: ./FrontEnd
+    ports:
+      - 3000:3000
+
+volumes:
+  db_micromobility:

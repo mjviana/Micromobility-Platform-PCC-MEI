@@ -1,0 +1,3 @@
+[submodule ".\\VehiclesManagementService\\"]
+	path = .\\VehiclesManagementService\\
+	url = https://dev.azure.com/IPCA-PCC-G10/_git/Micromobility
